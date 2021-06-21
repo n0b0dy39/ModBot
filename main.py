@@ -87,7 +87,7 @@ async def kick(ctx, member: discord.Member, *, reason=None):
 
 @kick.error
 async def kick(ctx, member: discord.Member, *, reason=None):
-    await ctx.send('Tas pas les perms ou tu peux pas kick un membre ayant les perms')
+    await ctx.send("T'as pas les perms ou tu peux pas kick un membre ayant les perms")
 
 
 ##################################################################################
@@ -101,7 +101,7 @@ async def ban(ctx, member: discord.Member, *, reason=None):
 
 @ban.error
 async def ban(ctx, member: discord.Member, *, reason=None):
-    await ctx.send('Tas pas les perms')
+    await ctx.send("T'as pas les perms")
 
 
 ##################################################################################
@@ -120,7 +120,7 @@ async def help(ctx):
     embed.add_field(name='kick [@membre] ', value='Kick le membre mentionné', inline=False)
     embed.add_field(name='ban [@membre] ', value = 'Ban le membre mentionné', inline = False)
     embed.add_field(name='ping ', value='Montre votre connexion au serveur', inline = False)
-    embed.set_footer(text='StudyBot | W⁷⁸#3422')
+    embed.set_footer(text='ModBot | W⁷⁸#3422')
 
     await ctx.send(embed=embed)
 
