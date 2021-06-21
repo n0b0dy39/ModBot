@@ -14,7 +14,7 @@ bot = commands.Bot(command_prefix="'", intents=default_intents)
 
 @bot.event
 async def on_ready():
-    await bot.change_presence(status=discord.Status.idle, activity=discord.Game('Objectif 1ère | Martin Bot'))
+    await bot.change_presence(status=discord.Status.online, activity=discord.Game("'help"))
     print("Le bot est connecté.")
 
 
@@ -40,13 +40,13 @@ async def hello(ctx):
 async def delete(ctx, number: int):
     messages = await ctx.channel.history(limit=number + 1).flatten()
     if number > 5:
-        await ctx.send('ta mere')
+        await ctx.send(f'Tu ne peux pas dépasser 6 messages or tu a mis {number}')
     else:
         for each_message in messages:
             await each_message.delete()
 @delete.error
 async def delete(ctx, number: int):
-    await ctx.send('Tas pas les perms')
+    await ctx.send('Tu ne peux pas effectuer cette action')
 
 ##################################################################################
 
@@ -79,7 +79,7 @@ async def kick(ctx, member: discord.Member, *, reason=None):
 
 @kick.error
 async def kick(ctx, member: discord.Member, *, reason=None):
-    await ctx.send('Tas pas les perms')
+    await ctx.send("Tu ne peux pas effectuer cette action")
 
 ##################################################################################
 
@@ -91,7 +91,7 @@ async def ban(ctx, member: discord.Member, *, reason=None):
 
 @ban.error
 async def ban(ctx, member: discord.Member, *, reason=None):
-    await ctx.send('Tas pas les perms')
+    await ctx.send("Tu ne peux pas effectuer cette action")
 
 ##################################################################################
 
@@ -102,8 +102,14 @@ async def helpp(ctx):
         colour=discord.Colour.blue()
     )
 
-    embed.set_author(name='Help')
-    embed.add_field(name='ping', value='Dis pong !', inline=False)
+    embed = discord.Embed(title="-- Help --", description="Commandes bot", color=0x7289da)
+    embed.add_field(name="del [nombre]", value="Supprime les messages", inline=False)
+    embed.add_field(name="roles [@membre]", value="Montre les roles du membre mentionné", inline=False)
+    embed.add_field(name="avatar [@membre]", value="Montre la photo de profile du membre mentionné", inline=False)
+    embed.add_field(name="kick [@membre]", value="Kick le membre mentionné", inline=False)
+    embed.add_field(name="ban [@membre]", value="Ban le membre mentionné", inline=False)
+    embed.add_field(name="ping", value="Montre votre connexion au serveur", inline=False)
+    embed.set_footer(text="ModBot | W⁷⁸#3422")
 
     await ctx.send(embed=embed)
 
