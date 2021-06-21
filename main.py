@@ -3,7 +3,8 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 from discord.ext.commands import has_permissions, MissingPermissions, CheckFailure, BadArgument
-load_dotenv(dotenv_path="config")
+
+load_dotenv(dotenv_path="config.txt")
 
 default_intents = discord.Intents.default()
 default_intents.members = True
@@ -45,9 +46,12 @@ async def delete(ctx, number: int):
     else:
         for each_message in messages:
             await each_message.delete()
+
+
 @delete.error
 async def delete(ctx, number: int):
     await ctx.send('Tu ne peux pas effectuer cette action')
+
 
 ##################################################################################
 
@@ -56,6 +60,7 @@ class MemberRoles(commands.MemberConverter):
     async def convert(self, ctx, argument):
         member = await super().convert(ctx, argument)
         return [role.name for role in member.roles[1:]]
+
 
 @bot.command()
 async def roles(ctx, *, member: MemberRoles):
@@ -68,6 +73,7 @@ async def roles(ctx, *, member: MemberRoles):
 async def avatar(ctx, *, member: discord.Member = None):
     userAvatar = member.avatar_url
     await ctx.send(userAvatar)
+
 
 ##################################################################################
 
@@ -82,6 +88,7 @@ async def kick(ctx, member: discord.Member, *, reason=None):
 async def kick(ctx, member: discord.Member, *, reason=None):
     await ctx.send("Tu ne peux pas effectuer cette action")
 
+
 ##################################################################################
 
 @bot.command()
@@ -90,9 +97,11 @@ async def ban(ctx, member: discord.Member, *, reason=None):
     await member.ban(reason=reason)
     await ctx.send(f'{member} viens de se faire ban.')
 
+
 @ban.error
 async def ban(ctx, member: discord.Member, *, reason=None):
     await ctx.send("Tu ne peux pas effectuer cette action")
+
 
 ##################################################################################
 
@@ -113,6 +122,7 @@ async def help(ctx):
     embed.set_footer(text="ModBot | W⁷⁸#3422")
 
     await ctx.send(embed=embed)
+
 
 ##################################################################################
 
