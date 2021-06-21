@@ -8,6 +8,7 @@ load_dotenv(dotenv_path="config")
 default_intents = discord.Intents.default()
 default_intents.members = True
 bot = commands.Bot(command_prefix="'", intents=default_intents)
+bot = commands.Bot(help_command=None)
 
 
 ##################################################################################
@@ -16,7 +17,6 @@ bot = commands.Bot(command_prefix="'", intents=default_intents)
 async def on_ready():
     await bot.change_presence(status=discord.Status.online, activity=discord.Game("'help"))
     print("Le bot est connecté.")
-    bot.remove_command('help')
 
 
 ##################################################################################
