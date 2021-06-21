@@ -16,6 +16,7 @@ bot = commands.Bot(command_prefix="'", intents=default_intents)
 async def on_ready():
     await bot.change_presence(status=discord.Status.online, activity=discord.Game("'help"))
     print("Le bot est connecté.")
+    bot.remove_command('help')
 
 
 ##################################################################################
@@ -96,7 +97,7 @@ async def ban(ctx, member: discord.Member, *, reason=None):
 ##################################################################################
 
 @bot.command(pass_context=True)
-async def helpp(ctx):
+async def help(ctx):
     author = ctx.message.author
     embed = discord.Embed(
         colour=discord.Colour.blue()
