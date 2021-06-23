@@ -143,6 +143,9 @@ async def mute(ctx, member: discord.Member, *, reason=None):
     await member.add_roles(mutedRole, reason=reason)
     await member.send(f" tu viens d'être mute de : {guild.name} raison: {reason}")
 
+@mute.error
+async def mute(ctx, member: discord.Member, *, reason=None):
+    await ctx.send('Tu ne peux pas effectuer cette action')
 
 @bot.command(description="Unmutes a specified user.")
 @commands.has_permissions(manage_messages=True)
@@ -156,6 +159,10 @@ async def unmute(ctx, member: discord.Member):
     await member.send(f" tu viens d'être unmute de: {ctx.guild.name}")
     embed = discord.Embed(title="unmute", description=f" unmute-{member.mention}", colour=discord.Colour.light_gray())
     await ctx.send(embed=embed)
+    
+@unmute.error
+async def unmute(ctx, member: discord.Member, *, reason=None):
+    await ctx.send('Tu ne peux pas effectuer cette action')
 
 ##################################################################################
 
