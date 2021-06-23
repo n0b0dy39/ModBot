@@ -38,8 +38,8 @@ async def hello(ctx):
 @has_permissions(administrator=True)
 async def delete(ctx, number: int):
     messages = await ctx.channel.history(limit=number + 1).flatten()
-    if number > 5:
-        await ctx.send(f'Tu ne peux pas dépasser 6 messages or tu a mis {number}')
+    if number >= 11:
+        await ctx.send(f'Tu ne peux pas dépasser 10 messages or tu a mis {number}')
     else:
         for each_message in messages:
             await each_message.delete()
@@ -82,6 +82,12 @@ async def kick(ctx, member: discord.Member, *, reason=None):
     await ctx.send(embed=embed)
     await member.send(f" tu viens d'être kick de : {guild.name} raison: {reason}")
 
+@kick.error
+async def kick(ctx, member: discord.Member, *, reason=None):
+    await ctx.send('Tu ne peux pas effectuer cette action')
+
+
+
 ##################################################################################
 
 @bot.command()
@@ -92,6 +98,10 @@ async def ban(ctx, member: discord.Member, *, reason=None):
     embed = discord.Embed(title="Ban", description=f"{member.mention} est ban ", colour=discord.Colour.light_gray())
     embed.add_field(name="reason:", value=reason, inline=False)
     await ctx.send(embed=embed)
+
+@ban.error
+async def ban(ctx, member: discord.Member, *, reason=None):
+    await ctx.send('Tu ne peux pas effectuer cette action')
 
 ##################################################################################
 
