@@ -106,6 +106,8 @@ async def ban(ctx, member: discord.Member, *, reason=None):
     embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.blue())
     await ctx.send(embed=embed)
 
+############################################################
+
 @bot.command()
 @has_permissions(ban_members=True)
 async def unban(ctx, *, member):
@@ -200,7 +202,7 @@ async def slm(ctx, seconds: int):
         await ctx.send(embed=embed)
     else:
         await ctx.channel.edit(slowmode_delay=seconds)
-        embed = discord.Embed(title="Slow Mode", description=f"Le slow mode est maintenant actif : {seconds}",colour=discord.Colour.blue())
+        embed = discord.Embed(title="Slow Mode", description=f"Le slow mode est maintenant actif : {seconds} secondes",colour=discord.Colour.blue())
         await ctx.send(embed=embed)
 
 @slm.error
@@ -209,19 +211,21 @@ async def slm(ctx, seconds: int):
     await ctx.send(embed=embed)
 
 
+
 ##################################################################################
 
-@bot.command(description="Mod a specified user.")
-@commands.has_permissions(manage_messages=True)
+@bot.command()
+@commands.has_permissions(manage_roles=True)
 async def mod(ctx, member: discord.Member):
-    modoRole = discord.utils.get(ctx.guild.roles, name="Modo")
+    guild = ctx.guild
+    modRole = get(guild.roles, name="Modo")
 
-    await member.add_roles(modoRole)
+    await member.add_roles(modRole)
     embed = discord.Embed(title="Modo", description=f"{member.mention} Viens d'être mis modo", colour=discord.Colour.blue())
     await ctx.send(embed=embed)
 
 @mod.error
-async def mod(ctx, member: discord.Member, *, reason=None):
+async def mod(ctx, member: discord.Member):
     embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.blue())
     await ctx.send(embed=embed)
 
@@ -229,7 +233,7 @@ async def mod(ctx, member: discord.Member, *, reason=None):
 ############################################################
 
 @bot.command(description="Unmod a specified user.")
-@commands.has_permissions(manage_messages=True)
+@commands.has_permissions(manage_roles=True)
 async def unmod(ctx, member: discord.Member):
     modoRole = discord.utils.get(ctx.guild.roles, name="Modo")
 
