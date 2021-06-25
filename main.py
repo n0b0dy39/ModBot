@@ -103,6 +103,24 @@ async def ban(ctx, member: discord.Member, *, reason=None):
 async def ban(ctx, member: discord.Member, *, reason=None):
     await ctx.send('Tu ne peux pas effectuer cette action')
 
+
+@bot.command()
+@has_permissions(ban_members=True)
+async def unban(ctx, *, member):
+    banned_users = await ctx.guild.bans()
+    member_name, member_discriminator = member.split('#')
+
+    for ban_entry in banned_users:
+        user = ban_entry.user
+
+    if (user.name, user.discriminator) == (member_name, member_discriminator):
+        await ctx.guild.unban(user)
+        await ctx.send(f"{user} have been unbanned sucessfully")
+        return
+
+@unban.error
+async def unban(ctx, *, member):
+    await ctx.send("Tu ne peux pas effectuer cette action soit tu n'as pas les perms soit tu ne dois pas ping mais mettre le tag en entier")
 ##################################################################################
 
 @bot.command(pass_context=True)
@@ -120,7 +138,7 @@ async def help(ctx):
     embed.add_field(name="kick [@membre]", value="Kick le membre mentionné", inline=False)
     embed.add_field(name="ban [@membre]", value="Ban le membre mentionné", inline=False)
     embed.add_field(name="mute [@membre]", value="Mute le membre mentionné", inline=False)
-    embed.add_field(name="unmute [@membre]", value="Unute le membre mentionné", inline=False)
+    embed.add_field(name="unmute [@membre]", value="Unmute le membre mentionné", inline=False)
     embed.add_field(name="slm [temps en seconde]", value="Active le slow mode", inline=False)
 
     embed.set_footer(text="ModBot | W⁷⁸#3422")
@@ -159,7 +177,7 @@ async def unmute(ctx, member: discord.Member):
     await member.send(f" tu viens d'être unmute de: {ctx.guild.name}")
     embed = discord.Embed(title="unmute", description=f" unmute-{member.mention}", colour=discord.Colour.light_gray())
     await ctx.send(embed=embed)
-    
+
 @unmute.error
 async def unmute(ctx, member: discord.Member, *, reason=None):
     await ctx.send('Tu ne peux pas effectuer cette action')
