@@ -1,5 +1,6 @@
 import os
 import discord
+from discord import message
 from discord.ext import commands
 from discord.utils import get
 from dotenv import load_dotenv
@@ -92,6 +93,7 @@ async def kick(ctx, member: discord.Member, *, reason=None):
 
 ##################################################################################
 
+
 @bot.command()
 @has_permissions(ban_members=True)
 async def ban(ctx, member: discord.Member, *, reason=None):
@@ -105,7 +107,6 @@ async def ban(ctx, member: discord.Member, *, reason=None):
 async def ban(ctx, member: discord.Member, *, reason=None):
     embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.blue())
     await ctx.send(embed=embed)
-
 ############################################################
 
 @bot.command()
@@ -145,6 +146,8 @@ async def help(ctx):
     embed.add_field(name="ban [@membre]", value="Ban le membre mentionné", inline=False)
     embed.add_field(name="mute [@membre]", value="Mute le membre mentionné", inline=False)
     embed.add_field(name="unmute [@membre]", value="Unmute le membre mentionné", inline=False)
+    embed.add_field(name="mod [@membre]", value="Donne le grade Modo pour le membre mentionné", inline=False)
+    embed.add_field(name="unmod [@membre]", value="Supprime le grade Modo pour le membre mentionné", inline=False)
     embed.add_field(name="slm [temps en seconde]", value="Active le slow mode", inline=False)
 
     embed.set_footer(text="ModBot | W⁷⁸#3422")
@@ -215,7 +218,7 @@ async def slm(ctx, seconds: int):
 ##################################################################################
 
 @bot.command()
-@commands.has_permissions(manage_roles=True)
+@commands.has_role("Fondateur")
 async def mod(ctx, member: discord.Member):
     guild = ctx.guild
     modRole = get(guild.roles, name="Modo")
@@ -223,6 +226,7 @@ async def mod(ctx, member: discord.Member):
     await member.add_roles(modRole)
     embed = discord.Embed(title="Modo", description=f"{member.mention} Viens d'être mis modo", colour=discord.Colour.blue())
     await ctx.send(embed=embed)
+
 
 @mod.error
 async def mod(ctx, member: discord.Member):
@@ -233,7 +237,7 @@ async def mod(ctx, member: discord.Member):
 ############################################################
 
 @bot.command(description="Unmod a specified user.")
-@commands.has_permissions(manage_roles=True)
+@commands.has_role("Fondateur")
 async def unmod(ctx, member: discord.Member):
     modoRole = discord.utils.get(ctx.guild.roles, name="Modo")
 
@@ -248,4 +252,6 @@ async def unmod(ctx, member: discord.Member, *, reason=None):
 
 
 ##################################################################################
+
+
 bot.run(os.getenv("TOKEN"))
