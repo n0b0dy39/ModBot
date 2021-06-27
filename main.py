@@ -40,7 +40,7 @@ async def hello(ctx):
 async def delete(ctx, number: int):
     messages = await ctx.channel.history(limit=number + 1).flatten()
     if number >= 11:
-        embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas dépasser 10 or tu as mis {number}", colour=discord.Colour.blue())
+        embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas dépasser 10 or tu as mis {number}", colour=discord.Colour.dark_blue())
         await ctx.send(embed=embed)
     else:
         for each_message in messages:
@@ -49,7 +49,7 @@ async def delete(ctx, number: int):
 
 @delete.error
 async def delete(ctx, number: int):
-    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.blue())
+    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.dark_blue())
     await ctx.send(embed=embed)
 
 ##################################################################################
@@ -80,14 +80,14 @@ async def kick(ctx, member: discord.Member, *, reason=None):
     guild = ctx.guild
     await member.kick(reason=reason)
     embed = discord.Embed(title="Kick", description=f"{member.mention} viens de se faire kick ",
-                          colour=discord.Colour.blue())
+                          colour=discord.Colour.dark_blue())
     embed.add_field(name="reason:", value=reason, inline=False)
     await ctx.send(embed=embed)
     await member.send(f" tu viens d'être kick de : {guild.name} raison: {reason}")
 
 @kick.error
 async def kick(ctx, member: discord.Member, *, reason=None):
-    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.blue())
+    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.dark_blue())
     await ctx.send(embed=embed)
 
 
@@ -99,13 +99,13 @@ async def kick(ctx, member: discord.Member, *, reason=None):
 async def ban(ctx, member: discord.Member, *, reason=None):
     guild = ctx.guild
     await member.ban(reason=reason)
-    embed = discord.Embed(title="Ban", description=f"{member.mention} est ban ", colour=discord.Colour.blue())
+    embed = discord.Embed(title="Ban", description=f"{member.mention} est ban ", colour=discord.Colour.dark_blue())
     embed.add_field(name="reason:", value=reason, inline=False)
     await ctx.send(embed=embed)
 
 @ban.error
 async def ban(ctx, member: discord.Member, *, reason=None):
-    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.blue())
+    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.dark_blue())
     await ctx.send(embed=embed)
 ############################################################
 
@@ -125,7 +125,7 @@ async def unban(ctx, *, member):
 
 @unban.error
 async def unban(ctx, *, member):
-    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.blue())
+    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.dark_blue())
     await ctx.send(embed=embed)
 
 ##################################################################################
@@ -134,7 +134,7 @@ async def unban(ctx, *, member):
 async def help(ctx):
     author = ctx.message.author
     embed = discord.Embed(
-        colour=discord.Colour.blue()
+        colour=discord.Colour.dark_blue()
     )
 
     embed = discord.Embed(title="-- Help --", description="Commandes bot", color=0x3498db)
@@ -164,7 +164,7 @@ async def mute(ctx, member: discord.Member, *, reason=None):
     memberr = get(guild.roles, name="Membre")
     await member.remove_roles(memberr)
 
-    embed = discord.Embed(title="muted", description=f"{member.mention} est mute ", colour=discord.Colour.blue())
+    embed = discord.Embed(title="muted", description=f"{member.mention} est mute ", colour=discord.Colour.dark_blue())
     embed.add_field(name="reason:", value=reason, inline=False)
     await ctx.send(embed=embed)
     await member.add_roles(mutedRole, reason=reason)
@@ -172,7 +172,7 @@ async def mute(ctx, member: discord.Member, *, reason=None):
 
 @mute.error
 async def mute(ctx, member: discord.Member, *, reason=None):
-    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.blue())
+    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.dark_blue())
     await ctx.send(embed=embed)
 
 ############################################################
@@ -187,12 +187,12 @@ async def unmute(ctx, member: discord.Member):
     await member.remove_roles(mutedRole)
     await member.add_roles(memberr)
     await member.send(f" tu viens d'être unmute de: {ctx.guild.name}")
-    embed = discord.Embed(title="unmute", description=f" unmute-{member.mention}", colour=discord.Colour.blue())
+    embed = discord.Embed(title="unmute", description=f" unmute-{member.mention}", colour=discord.Colour.dark_blue())
     await ctx.send(embed=embed)
 
 @unmute.error
 async def unmute(ctx, member: discord.Member, *, reason=None):
-    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.blue())
+    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.dark_blue())
     await ctx.send(embed=embed)
 
 ##################################################################################
@@ -201,16 +201,16 @@ async def unmute(ctx, member: discord.Member, *, reason=None):
 @commands.has_permissions(manage_messages=True)
 async def slm(ctx, seconds: int):
     if seconds > 60:
-        embed = discord.Embed(title="Erreur :", description=f"La durée est trop élevée, elle ne peut pas dépasser 60 secondes or tu as mis : {seconds}", colour=discord.Colour.blue())
+        embed = discord.Embed(title="Erreur :", description=f"La durée est trop élevée, elle ne peut pas dépasser 60 secondes or tu as mis : {seconds}", colour=discord.Colour.dark_blue())
         await ctx.send(embed=embed)
     else:
         await ctx.channel.edit(slowmode_delay=seconds)
-        embed = discord.Embed(title="Slow Mode", description=f"Le slow mode est maintenant actif : {seconds} secondes",colour=discord.Colour.blue())
+        embed = discord.Embed(title="Slow Mode", description=f"Le slow mode est maintenant actif : {seconds} secondes",colour=discord.Colour.dark_blue())
         await ctx.send(embed=embed)
 
 @slm.error
 async def slm(ctx, seconds: int):
-    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.blue())
+    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.dark_blue())
     await ctx.send(embed=embed)
 
 
@@ -224,13 +224,13 @@ async def mod(ctx, member: discord.Member):
     modRole = get(guild.roles, name="Modo")
 
     await member.add_roles(modRole)
-    embed = discord.Embed(title="Modo", description=f"{member.mention} Viens d'être mis modo", colour=discord.Colour.blue())
+    embed = discord.Embed(title="Modo", description=f"{member.mention} Viens d'être mis modo", colour=discord.Colour.dark_blue())
     await ctx.send(embed=embed)
 
 
 @mod.error
 async def mod(ctx, member: discord.Member):
-    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.blue())
+    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.dark_blue())
     await ctx.send(embed=embed)
 
 
@@ -242,12 +242,12 @@ async def unmod(ctx, member: discord.Member):
     modoRole = discord.utils.get(ctx.guild.roles, name="Modo")
 
     await member.remove_roles(modoRole)
-    embed = discord.Embed(title="Modo", description=f"{member.mention} n'as plus le rôle de modo", colour=discord.Colour.blue())
+    embed = discord.Embed(title="Modo", description=f"{member.mention} n'as plus le rôle de modo", colour=discord.Colour.dark_blue())
     await ctx.send(embed=embed)
 
 @unmod.error
 async def unmod(ctx, member: discord.Member, *, reason=None):
-    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.blue())
+    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.dark_blue())
     await ctx.send(embed=embed)
 
 
