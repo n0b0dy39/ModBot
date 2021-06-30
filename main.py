@@ -13,6 +13,7 @@ default_intents.members = True
 bot = commands.Bot(command_prefix=">", intents=default_intents)
 bot.remove_command("help")
 
+
 ##################################################################################
 
 @bot.event
@@ -20,17 +21,20 @@ async def on_ready():
     await bot.change_presence(status=discord.Status.online, activity=discord.Game(">help"))
     print("Le bot est connecté.")
 
+
 ##################################################################################
 
 @bot.command()
 async def ping(ctx):
     await ctx.send('Pong! {0}'.format(round(bot.latency * 1000)))
 
+
 ##################################################################################
 
 @bot.command()
 async def hello(ctx):
     await ctx.send('Hello {0.mention}.'.format(ctx.author))
+
 
 ##################################################################################
 
@@ -40,7 +44,8 @@ async def hello(ctx):
 async def delete(ctx, number: int):
     messages = await ctx.channel.history(limit=number + 1).flatten()
     if number >= 11:
-        embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas dépasser 10 or tu as mis {number}", colour=discord.Colour.dark_blue())
+        embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas dépasser 10 or tu as mis {number}",
+                              colour=discord.Colour.dark_blue())
         await ctx.send(embed=embed)
     else:
         for each_message in messages:
@@ -49,8 +54,10 @@ async def delete(ctx, number: int):
 
 @delete.error
 async def delete(ctx, number: int):
-    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.dark_blue())
+    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",
+                          colour=discord.Colour.dark_blue())
     await ctx.send(embed=embed)
+
 
 ##################################################################################
 
@@ -65,12 +72,14 @@ class MemberRoles(commands.MemberConverter):
 async def roles(ctx, *, member: MemberRoles):
     await ctx.send('Roles : ' + ', '.join(member))
 
+
 ##################################################################################
 
 @bot.command()
 async def avatar(ctx, *, member: discord.Member = None):
     userAvatar = member.avatar_url
     await ctx.send(userAvatar)
+
 
 ##################################################################################
 
@@ -85,9 +94,11 @@ async def kick(ctx, member: discord.Member, *, reason=None):
     await ctx.send(embed=embed)
     await member.send(f" tu viens d'être kick de : {guild.name} raison: {reason}")
 
+
 @kick.error
 async def kick(ctx, member: discord.Member, *, reason=None):
-    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.dark_blue())
+    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",
+                          colour=discord.Colour.dark_blue())
     await ctx.send(embed=embed)
 
 
@@ -103,10 +114,14 @@ async def ban(ctx, member: discord.Member, *, reason=None):
     embed.add_field(name="reason:", value=reason, inline=False)
     await ctx.send(embed=embed)
 
+
 @ban.error
 async def ban(ctx, member: discord.Member, *, reason=None):
-    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.dark_blue())
+    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",
+                          colour=discord.Colour.dark_blue())
     await ctx.send(embed=embed)
+
+
 ############################################################
 
 @bot.command()
@@ -123,10 +138,13 @@ async def unban(ctx, *, member):
         await ctx.send(f"{user} have been unbanned sucessfully")
         return
 
+
 @unban.error
 async def unban(ctx, *, member):
-    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.dark_blue())
+    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",
+                          colour=discord.Colour.dark_blue())
     await ctx.send(embed=embed)
+
 
 ##################################################################################
 
@@ -137,7 +155,7 @@ async def help(ctx):
         colour=discord.Colour.dark_blue()
     )
 
-    embed = discord.Embed(title="-- Help --", description="Commandes bot", color=0x3498db)
+    embed = discord.Embed(title="-- Help --", description="Commandes bot | prefix : >", color=0x3498db)
     embed.add_field(name="ping", value="Montre votre connexion au serveur", inline=False)
     embed.add_field(name="del [nombre]", value="Supprime les messages", inline=False)
     embed.add_field(name="roles [@membre]", value="Montre les roles du membre mentionné", inline=False)
@@ -149,10 +167,12 @@ async def help(ctx):
     embed.add_field(name="mod [@membre]", value="Donne le grade Modo pour le membre mentionné", inline=False)
     embed.add_field(name="unmod [@membre]", value="Supprime le grade Modo pour le membre mentionné", inline=False)
     embed.add_field(name="slm [temps en seconde]", value="Active le slow mode", inline=False)
+    embed.add_field(name="ns [mess sondage]", value="Fais un sondage", inline=False)
 
     embed.set_footer(text="ModBot | W⁷⁸#3422")
 
     await ctx.send(embed=embed)
+
 
 ##################################################################################
 
@@ -170,10 +190,13 @@ async def mute(ctx, member: discord.Member, *, reason=None):
     await member.add_roles(mutedRole, reason=reason)
     await member.send(f" tu viens d'être mute de : {guild.name} raison: {reason}")
 
+
 @mute.error
 async def mute(ctx, member: discord.Member, *, reason=None):
-    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.dark_blue())
+    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",
+                          colour=discord.Colour.dark_blue())
     await ctx.send(embed=embed)
+
 
 ############################################################
 
@@ -190,10 +213,13 @@ async def unmute(ctx, member: discord.Member):
     embed = discord.Embed(title="unmute", description=f" unmute-{member.mention}", colour=discord.Colour.dark_blue())
     await ctx.send(embed=embed)
 
+
 @unmute.error
 async def unmute(ctx, member: discord.Member, *, reason=None):
-    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.dark_blue())
+    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",
+                          colour=discord.Colour.dark_blue())
     await ctx.send(embed=embed)
+
 
 ##################################################################################
 
@@ -201,18 +227,22 @@ async def unmute(ctx, member: discord.Member, *, reason=None):
 @commands.has_permissions(manage_messages=True)
 async def slm(ctx, seconds: int):
     if seconds > 60:
-        embed = discord.Embed(title="Erreur :", description=f"La durée est trop élevée, elle ne peut pas dépasser 60 secondes or tu as mis : {seconds}", colour=discord.Colour.dark_blue())
+        embed = discord.Embed(title="Erreur :",
+                              description=f"La durée est trop élevée, elle ne peut pas dépasser 60 secondes or tu as mis : {seconds}",
+                              colour=discord.Colour.dark_blue())
         await ctx.send(embed=embed)
     else:
         await ctx.channel.edit(slowmode_delay=seconds)
-        embed = discord.Embed(title="Slow Mode", description=f"Le slow mode est maintenant actif : {seconds} secondes",colour=discord.Colour.dark_blue())
+        embed = discord.Embed(title="Slow Mode", description=f"Le slow mode est maintenant actif : {seconds} secondes",
+                              colour=discord.Colour.dark_blue())
         await ctx.send(embed=embed)
+
 
 @slm.error
 async def slm(ctx, seconds: int):
-    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.dark_blue())
+    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",
+                          colour=discord.Colour.dark_blue())
     await ctx.send(embed=embed)
-
 
 
 ##################################################################################
@@ -224,13 +254,15 @@ async def mod(ctx, member: discord.Member):
     modRole = get(guild.roles, name="Modo")
 
     await member.add_roles(modRole)
-    embed = discord.Embed(title="Modo", description=f"{member.mention} Viens d'être mis modo", colour=discord.Colour.dark_blue())
+    embed = discord.Embed(title="Modo", description=f"{member.mention} Viens d'être mis modo",
+                          colour=discord.Colour.dark_blue())
     await ctx.send(embed=embed)
 
 
 @mod.error
 async def mod(ctx, member: discord.Member):
-    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.dark_blue())
+    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",
+                          colour=discord.Colour.dark_blue())
     await ctx.send(embed=embed)
 
 
@@ -242,16 +274,31 @@ async def unmod(ctx, member: discord.Member):
     modoRole = discord.utils.get(ctx.guild.roles, name="Modo")
 
     await member.remove_roles(modoRole)
-    embed = discord.Embed(title="Modo", description=f"{member.mention} n'as plus le rôle de modo", colour=discord.Colour.dark_blue())
+    embed = discord.Embed(title="Modo", description=f"{member.mention} n'as plus le rôle de modo",
+                          colour=discord.Colour.dark_blue())
     await ctx.send(embed=embed)
+
 
 @unmod.error
 async def unmod(ctx, member: discord.Member, *, reason=None):
-    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",colour=discord.Colour.dark_blue())
+    embed = discord.Embed(title="Erreur :", description=f"Tu ne peux pas effectuer cette action",
+                          colour=discord.Colour.dark_blue())
     await ctx.send(embed=embed)
 
 
 ##################################################################################
+@bot.command()
+async def ns(ctx, *, mess):
 
+    emoji = '✅'
+    emojis = '❌'
 
+    embed = discord.Embed(title=f"Nouveau Sondage", description=mess, colour=discord.Colour.dark_blue())
+
+    emb = await ctx.send(embed=embed)
+    await emb.add_reaction(emoji)
+    await emb.add_reaction(emojis)
+
+##################################################################################
+    
 bot.run(os.getenv("TOKEN"))
