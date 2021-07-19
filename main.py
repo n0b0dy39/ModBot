@@ -180,8 +180,8 @@ async def help(ctx):
 @commands.has_permissions(manage_messages=True)
 async def mute(ctx, member: discord.Member, *, reason=None):
     guild = ctx.guild
-    mutedRole = get(guild.roles, name="Muted")
-    memberr = get(guild.roles, name="Membre")
+    mutedRole = get(guild.roles, name="🔇┊Muted")
+    memberr = get(guild.roles, name="💫┊Membre")
     await member.remove_roles(memberr)
 
     embed = discord.Embed(title="muted", description=f"{member.mention} est mute ", colour=discord.Colour.dark_blue())
@@ -204,8 +204,8 @@ async def mute(ctx, member: discord.Member, *, reason=None):
 @commands.has_permissions(manage_messages=True)
 async def unmute(ctx, member: discord.Member):
     guild = ctx.guild
-    mutedRole = discord.utils.get(ctx.guild.roles, name="Muted")
-    memberr = get(guild.roles, name="Membre")
+    mutedRole = discord.utils.get(ctx.guild.roles, name="🔇┊Muted")
+    memberr = get(guild.roles, name="💫┊Membre")
 
     await member.remove_roles(mutedRole)
     await member.add_roles(memberr)
